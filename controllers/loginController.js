@@ -11,11 +11,10 @@ const ajv = new Ajv()
 const schema = {
   type: 'object',
   properties: {
-    fullName: { type: 'string', minLength: 1, maxLength: 24 },
     email: { type: 'string', minLength: 1, maxLength: 24 },
     password: { type: 'string', minLength: 1, maxLength: 24 }
   },
-  required: ['fullName', 'email', 'password'],
+  required: ['email', 'password'],
   additionalProperties: false
 }
 
@@ -29,6 +28,7 @@ function validateBody(body) {
       validator.errors.map(err => `${err.dataPath} ${err.message}`).join())
   }
 }
+
 class UserController extends Controller {
   constructor(body) {
     super('users')
@@ -37,14 +37,6 @@ class UserController extends Controller {
   validate() {
     validateBody(this.body)
     return this
-  }
-
-  async register() {
-    this.body.password = await salt(this.body.password)
-    await this.add(this.body)
-    this.body.token = jwt.sign(this.body, secret, {
-      expiresIn: '6h'
-    })
   }
 
   async login() {
