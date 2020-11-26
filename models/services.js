@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.subscriptions)
-      this.belongsTo(models.spendings)
     }
   };
   services.init({

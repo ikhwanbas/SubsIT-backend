@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.users)
       this.hasMany(models.subscriptions)
       this.hasMany(models.expenses)
-      this.hasMany(models.spendings)
     }
   };
   cards.init({
