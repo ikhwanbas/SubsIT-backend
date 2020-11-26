@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: v4
     },
-    fullName: {
+    full_name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'users',
   });
   return users;

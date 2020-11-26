@@ -10,11 +10,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      startDate: {
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      dueDate: {
+      start_date: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      due_date: {
         type: Sequelize.DATE,
         allowNull: false
       },
@@ -26,7 +30,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      userId: {
+      user_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
@@ -34,7 +38,7 @@ module.exports = {
           key: "id"
         }
       },
-      serviceId: {
+      service_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
@@ -42,7 +46,7 @@ module.exports = {
           key: "id"
         }
       },
-      cardId: {
+      card_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {

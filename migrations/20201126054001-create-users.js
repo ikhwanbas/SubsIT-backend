@@ -7,7 +7,7 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: true
       },
-      fullName: {
+      full_name: {
         type: Sequelize.STRING,
         allowNull: false
       },

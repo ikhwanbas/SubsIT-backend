@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      purchaseDate: {
+      purchase_date: {
         type: Sequelize.DATE,
         allowNull: false
       },
@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      userId: {
+      user_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
@@ -30,7 +30,7 @@ module.exports = {
           key: "id"
         }
       },
-      cardId: {
+      card_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
