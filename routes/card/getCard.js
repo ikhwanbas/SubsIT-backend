@@ -2,7 +2,6 @@ const express = require('express')
 const app = express.Router()
 const db = require('../../models')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
-const { v4 } = require('uuid')
 const passport = require('../../middleware/authorizationMiddleware')
 
 
