@@ -11,7 +11,7 @@ module.exports = {
     "dialect": "mysql",
     "underscored": true,
     //biar ga kotor syntax mysql di terminal
-    logging: false
+    logging: true
   },
   "production": {
     "username": DB_USERNAME,

@@ -8,11 +8,11 @@ module.exports = {
 
       {
 
-        id: "123",
+        id: v4(),
         repeat: "monthly",
         service_id: "123",
-        user_id: "1981bab4-2479-4085-afb4-67afb51e27e9",
-        card_id: "123",
+        user_id: "9e8b38b5-36a9-4446-b614-0d57f92fec76",
+        card_id: "48b793d0-8e22-4140-abca-368f8090503b",
         created_at: new Date(),
         start_date: new Date(),
         due_date: new Date(),

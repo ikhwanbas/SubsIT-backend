@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   cards.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: v4
+      primaryKey: true
     },
     card_type: {
       type: DataTypes.STRING,

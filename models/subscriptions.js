@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
+    card_id: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
     cost: {
       type: DataTypes.DECIMAL,
       allowNull: false
@@ -49,7 +53,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    updatedAt: false,
     modelName: 'subscriptions',
+    underscored: true
   });
   return subscriptions;
 };
