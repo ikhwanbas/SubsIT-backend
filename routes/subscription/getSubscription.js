@@ -9,12 +9,20 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     const userId = req.session.passport.user.id
 
     // mencari data subscription dari database
-    //masih perlu melakukan join
     const subscription = await db.subscriptions.findAll({
+        include: [{
+            model: db.users,
+            required: true,
+            include: [{
+                model: db.cards,
+                required: true
+            }]
+        }],
         where: {
             userId
         }
     })
+
     // kondisi kalau tidak ditemukan subscription
     if (subscription.length <= 0) { res.status(404).send('subscription is not found') }
 
