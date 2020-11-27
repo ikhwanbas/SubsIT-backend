@@ -17,6 +17,7 @@ app.post('/auth/register', async (req, res, next) => {
         }
     })
         .catch((err) => next(err))
+
     try {
         if (user.length > 0) {
             return res.status(409).send('Email already used')
@@ -26,13 +27,15 @@ app.post('/auth/register', async (req, res, next) => {
             const hashedPassword = await salt(password)
                 .catch((err) => next(err))
             body.password = hashedPassword
+
             const addUserResult = await db.users.create(body)
                 .catch(err => res.status(400).send(err))
+
             if (addUserResult) {
                 const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, jwtConfig.options)
-                user.dataValues.token = token
-                delete user.dataValues.password
-                res.send(user.dataValues)
+                addUserResult.dataValues.token = token
+                delete addUserResult.dataValues.password
+                res.send(addUserResult.dataValues)
             }
         }
     } catch (err) {

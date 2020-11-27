@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   subscriptions.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: v4
+      primaryKey: true
     },
     repeat: {
       type: DataTypes.STRING,
@@ -55,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     updatedAt: false,
     modelName: 'subscriptions',
-    underscored: true
+    underscored: false
   });
   return subscriptions;
 };
