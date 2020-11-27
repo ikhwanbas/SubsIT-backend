@@ -26,10 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false
@@ -42,16 +38,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: false
     },
-    cost: {
-      type: DataTypes.DECIMAL,
-      allowNull: false
-    },
     payment: {
       type: DataTypes.DECIMAL,
       allowNull: false
     }
   }, {
     sequelize,
+    createdAt: false,
     updatedAt: false,
     modelName: 'subscriptions',
     underscored: false

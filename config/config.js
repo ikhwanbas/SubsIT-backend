@@ -10,7 +10,7 @@ module.exports = {
     "host": "localhost",
     "dialect": "mysql",
     //biar ga kotor syntax mysql di terminal
-    logging: false
+    logging: true
   },
   "production": {
     "username": DB_USERNAME,

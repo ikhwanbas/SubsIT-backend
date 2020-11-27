@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     picture: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    cost: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
     }
   }, {
     sequelize,

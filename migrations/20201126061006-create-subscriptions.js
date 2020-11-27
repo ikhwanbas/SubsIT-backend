@@ -10,20 +10,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       startDate: {
         type: Sequelize.DATE,
         allowNull: false
       },
       dueDate: {
         type: Sequelize.DATE,
-        allowNull: false
-      },
-      cost: {
-        type: Sequelize.DECIMAL,
         allowNull: false
       },
       payment: {
