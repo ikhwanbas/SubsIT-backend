@@ -3,12 +3,11 @@ const app = express.Router()
 const db = require('../../models')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../../config/jwtConfig')
-const humps = require('humps')
 const { checkPassword } = require('../../helpers/bcryptHelper')
 
 
 app.post('/auth/login', async (req, res, next) => {
-    let body = humps.decamelizeKeys(req.body)
+    let body = req.body
     try {
         let user = await db.users.findAll({
             where: {
@@ -26,12 +25,10 @@ app.post('/auth/login', async (req, res, next) => {
                 return res.status(400).send('Password not match')
             }
             else {
-                let users = { user }
-                const token = jwt.sign(users, process.env.JWT_SECRET, jwtConfig.options)
-                body.fullName = user.full_name
-                body.token = token
-                delete body.password
-                res.send(body)
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, jwtConfig.options)
+                user.dataValues.token = token
+                delete user.dataValues.password
+                res.send(user.dataValues)
             }
         }
 

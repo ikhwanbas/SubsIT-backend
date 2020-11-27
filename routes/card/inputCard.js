@@ -1,17 +1,19 @@
 const express = require('express')
 const app = express.Router()
 const db = require('../../models')
-const humps = require('humps')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 const { v4 } = require('uuid')
+const passport = require('../../middleware/authorizationMiddleware')
 
 
-app.post('/card', async (req, res, next) => {
-    let body = humps.decamelizeKeys(req.body)
+
+app.post('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
+    let body = req.body
     body.id = v4()
+    body.userId = req.user.id
     const check = await db.cards.findAll({
         where: {
-            card_numer: body.card_numer
+            cardNumber: body.cardNumber
         }
     })
         .catch((err) => next(err))
