@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: v4
     },
-    full_name: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false
     },

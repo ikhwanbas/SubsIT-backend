@@ -23,19 +23,19 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: v4
     },
-    card_type: {
+    cardType: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    card_name: {
+    cardName: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    card_number: {
+    cardNumber: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    card_valid: {
+    cardValid: {
       type: DataTypes.STRING,
       allowNull: false
     },
