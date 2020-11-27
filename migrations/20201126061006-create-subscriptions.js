@@ -12,7 +12,7 @@ module.exports = {
       },
       created_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       start_date: {
         type: Sequelize.DATE,
@@ -52,7 +52,7 @@ module.exports = {
         references: {
           model: "cards",
           key: "id"
-        }
+        },
       }
     });
   },
