@@ -9,7 +9,6 @@ module.exports = {
     "database": DB_DATABASE,
     "host": "localhost",
     "dialect": "mysql",
-
     //biar ga kotor syntax mysql di terminal
     logging: false
   },
