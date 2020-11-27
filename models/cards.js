@@ -13,15 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.users)
-      this.hasMany(models.subscriptions)
+      this.hasMany(models.subscriptions, { foreignKey: 'cardId' })
       this.hasMany(models.expenses)
     }
   };
   cards.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: v4
+      primaryKey: true
     },
     cardType: {
       type: DataTypes.STRING,

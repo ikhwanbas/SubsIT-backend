@@ -12,16 +12,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.services)
-      this.belongsTo(models.users)
-      this.belongsTo(models.cards)
+      this.belongsTo(models.services, { foreignKey: 'serviceId' })
+      this.belongsTo(models.users, { foreignKey: 'userId' })
+      this.belongsTo(models.cards, { foreignKey: 'cardId' })
     }
   };
   subscriptions.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: v4
+      primaryKey: true
     },
     repeat: {
       type: DataTypes.STRING,
@@ -39,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
+    cardId: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
     cost: {
       type: DataTypes.DECIMAL,
       allowNull: false
@@ -49,7 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    updatedAt: false,
     modelName: 'subscriptions',
+    underscored: false
   });
   return subscriptions;
 };
