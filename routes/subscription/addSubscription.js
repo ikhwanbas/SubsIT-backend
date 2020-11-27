@@ -3,6 +3,7 @@ const db = require('../../models')
 const app = express.Router()
 
 app.post('/subscription/:id', async (req, res, next) => {
+    //under construction
     const subscription = await db.subscriptions.findAll({
 
     })

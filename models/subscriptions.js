@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    card_id: {
+    cardId: {
       type: DataTypes.UUID,
       allowNull: false
     },

@@ -1,9 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const passport = require('passport');
+
 require('dotenv').config()
 const app = express()
 app.use(bodyParser.json())
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 /**
  * ⚠️ Propietary code! Do not change! ⚠️
