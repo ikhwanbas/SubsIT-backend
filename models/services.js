@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.subscriptions, { foreignKey: 'serviceId' })
+      this.hasMany(models.subscriptions, { foreignKey: 'serviceId' })
     }
   };
   services.init({
@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    cost: {
+      type: DataTypes.DECIMAL,
       allowNull: false
     },
     description: {

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.users)
       this.hasMany(models.subscriptions, { foreignKey: 'cardId' })
-      this.hasMany(models.expenses)
+      this.hasMany(models.expenses, { foreignKey: 'cardId' })
     }
   };
   cards.init({

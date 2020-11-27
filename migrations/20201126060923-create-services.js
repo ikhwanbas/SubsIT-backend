@@ -10,6 +10,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      cost: {
+        type: Sequelize.DECIMAL,
+        allowNull: false
+      },
       description: {
         type: Sequelize.TEXT,
         allowNull: false
