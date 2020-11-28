@@ -9,7 +9,6 @@ const passport = require('../../middleware/authorizationMiddleware')
 
 app.patch('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let body = req.body
-    body.userId = req.user.id
     const check = await db.cards.findAll({
         where: {
             id: req.query.id
@@ -21,16 +20,13 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
             return res.status(409).send('card not found')
         }
         else {
-            const result = await db.cards.update({
-                cardType: body.cardType,
-                cardName: body.cardName,
-                cardNumber: body.cardNumber,
-                cardValid: body.cardValid,
-            }, {
-                where: {
-                    id: req.query.id
-                }
-            })
+            const result = await db.cards.update(
+                body,
+                {
+                    where: {
+                        id: req.query.id
+                    }
+                })
                 .catch(err => res.status(400).send(err))
             if (result == 1) {
                 res.send("your card updated")
