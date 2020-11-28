@@ -24,7 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     repeat: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true,
+        equals: 'Monthly'
+      }
     },
     startDate: {
       type: DataTypes.DATE,
@@ -40,7 +45,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     payment: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        notNull: true,
+      }
     }
   }, {
     sequelize,

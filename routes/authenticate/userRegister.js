@@ -17,29 +17,24 @@ app.post('/auth/register', async (req, res, next) => {
         }
     })
         .catch((err) => next(err))
+    if (user.length > 0) {
+        return res.status(409).send('Email already used')
+    }
+    else {
+        const password = body.password
+        const hashedPassword = await salt(password)
+            .catch((err) => next(err))
+        body.password = hashedPassword
 
-    try {
-        if (user.length > 0) {
-            return res.status(409).send('Email already used')
+        const addUserResult = await db.users.create(body)
+            .catch(err => next(err))
+
+        if (addUserResult) {
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, jwtConfig.options)
+            addUserResult.dataValues.token = token
+            delete addUserResult.dataValues.password
+            res.send(addUserResult.dataValues)
         }
-        else {
-            const password = body.password
-            const hashedPassword = await salt(password)
-                .catch((err) => next(err))
-            body.password = hashedPassword
-
-            const addUserResult = await db.users.create(body)
-                .catch(err => res.status(400).send(err))
-
-            if (addUserResult) {
-                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, jwtConfig.options)
-                addUserResult.dataValues.token = token
-                delete addUserResult.dataValues.password
-                res.send(addUserResult.dataValues)
-            }
-        }
-    } catch (err) {
-        next(err)
     }
 })
 

@@ -24,23 +24,42 @@ module.exports = (sequelize, DataTypes) => {
     },
     cardType: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true
+      }
     },
     cardName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true
+      }
     },
     cardNumber: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        notNull: true
+      }
     },
     cardValid: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: true
+      }
     },
     saldo: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        notNull: true
+      }
     }
   }, {
     sequelize,
