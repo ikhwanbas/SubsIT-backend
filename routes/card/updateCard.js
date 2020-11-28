@@ -15,28 +15,24 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
         }
     })
         .catch((err) => next(err))
-    try {
-        if (check.length == 0) {
-            return res.status(409).send('card not found')
+    if (check.length == 0) {
+        return res.status(404).send('card not found')
+    }
+    else {
+        const result = await db.cards.update(
+            body,
+            {
+                where: {
+                    id: req.query.id
+                }
+            })
+            .catch(err => res.next(err))
+        if (result == 1) {
+            res.send("your card updated")
+        } else {
+            res.send("update failed")
         }
-        else {
-            const result = await db.cards.update(
-                body,
-                {
-                    where: {
-                        id: req.query.id
-                    }
-                })
-                .catch(err => res.status(400).send(err))
-            if (result == 1) {
-                res.send("your card updated")
-            } else {
-                res.send("update failed")
-            }
 
-        }
-    } catch (err) {
-        next(err)
     }
 })
 

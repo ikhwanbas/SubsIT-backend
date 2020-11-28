@@ -13,21 +13,18 @@ app.post('/card', passport.authenticate('bearer', { session: false }), async (re
     body.userId = req.user.id
     const check = await db.cards.findAll({
         where: {
-            cardNumber: body.cardNumber
+            cardNumber: body.cardNumber,
+            cardName: body.cardName
         }
     })
         .catch((err) => next(err))
-    try {
-        if (check.length > 0) {
-            return res.status(409).send('card already add')
-        }
-        else {
-            const result = await db.cards.create(body)
-                .catch(err => res.status(400).send(err))
-            res.send(result)
-        }
-    } catch (err) {
-        next(err)
+    if (check.length > 0) {
+        return res.status(409).send('card already add')
+    }
+    else {
+        const result = await db.cards.create(body)
+            .catch((err) => next(err))
+        res.send(result)
     }
 })
 

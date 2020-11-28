@@ -16,26 +16,22 @@ app.delete('/card', passport.authenticate('bearer', { session: false }), async (
         }
     })
         .catch((err) => next(err))
-    try {
-        if (check.length == 0) {
-            return res.status(409).send('card not found')
-        }
-        else {
-            const result = await db.cards.destroy({
-                where: {
-                    id: req.query.id
-                }
-            })
-                .catch(err => res.status(400).send(err))
-            if (result == 1) {
-                res.send("delete success")
-            } else {
-                res.send("delete failed")
+    if (check.length == 0) {
+        return res.status(404).send('card not found')
+    }
+    else {
+        const result = await db.cards.destroy({
+            where: {
+                id: req.query.id
             }
-
+        })
+            .catch((err) => next(err))
+        if (result == 1) {
+            res.send("delete success")
+        } else {
+            res.send("delete failed")
         }
-    } catch (err) {
-        next(err)
+
     }
 })
 
