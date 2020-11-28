@@ -21,6 +21,10 @@ module.exports = {
       picture: {
         type: Sequelize.TEXT,
         allowNull: false
+      },
+      cost: {
+        type: Sequelize.DECIMAL,
+        allowNull: false
       }
     });
   },
