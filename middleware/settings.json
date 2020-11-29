@@ -1,0 +1,20 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "workbench.colorCustomizations": {},
+    "git.enableSmartCommit": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "editor.fontSize": 12,
+    "debug.inlineValues": true,
+    "files.watcherExclude": {
+        "**/.git/objects/**": false,
+        "**/.git/subtree-cache/**": false
+    },
+    "window.zoomLevel": 0,
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "easy-icons",
+    "explorer.confirmDelete": false,
+    "files.autoSave": "off"
+}
