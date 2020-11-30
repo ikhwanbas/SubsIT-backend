@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const { v4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
   class users extends Model {
     /**
@@ -21,13 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: v4
     },
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
         notNull: true,
       }
 

@@ -13,8 +13,7 @@ app.post('/card', passport.authenticate('bearer', { session: false }), async (re
     body.userId = req.user.id
     const check = await db.cards.findAll({
         where: {
-            cardNumber: body.cardNumber,
-            cardName: body.cardName
+            cardNumber: body.cardNumber
         }
     })
         .catch((err) => next(err))

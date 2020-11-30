@@ -9,20 +9,25 @@ const passport = require('../../middleware/authorizationMiddleware')
 
 app.delete('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let body = req.body
-    body.userId = req.user.id
+    let query = req.query
+    // const check = await db.cards.findAll({
+    //     where: {
+    //         id: req.query.id
+    //     }
+    // })
     const check = await db.cards.findAll({
         where: {
-            id: req.query.id
+            cardNumber: query.cardNumber
         }
     })
         .catch((err) => next(err))
-    if (check.length == 0) {
+    if (!check.length) {
         return res.status(404).send('card not found')
     }
     else {
         const result = await db.cards.destroy({
             where: {
-                id: req.query.id
+                cardNumber: query.cardNumber
             }
         })
             .catch((err) => next(err))
