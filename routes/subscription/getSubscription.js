@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../../models')
 const app = express.Router()
 const auth = require('../../middleware/authorizationMiddleware')
+const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 
 app.get('/subscription', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
@@ -31,4 +32,5 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     }
 })
 
+app.use(mysqlErrorHandler)
 module.exports = app

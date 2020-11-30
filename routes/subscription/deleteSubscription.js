@@ -3,6 +3,7 @@ const { v4 } = require('uuid')
 const db = require('../../models')
 const app = express.Router()
 const auth = require('../../middleware/authorizationMiddleware')
+const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 app.delete('/subscription/:serviceId', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     // cek dulu apakah bisa ditemukan service id dari params
@@ -36,4 +37,5 @@ app.delete('/subscription/:serviceId', auth.authenticate('bearer', { session: tr
     }
 })
 
+app.use(mysqlErrorHandler)
 module.exports = app
