@@ -11,7 +11,7 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
     let body = req.body
     const check = await db.cards.findAll({
         where: {
-            id: req.query.id
+            cardNumber: req.query.cardNumber
         }
     })
         .catch((err) => next(err))
@@ -23,7 +23,7 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
             body,
             {
                 where: {
-                    id: req.query.id
+                    cardNumber: req.query.cardNumber
                 }
             })
             .catch(err => res.next(err))
