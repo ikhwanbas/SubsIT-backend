@@ -3,8 +3,9 @@ const { v4 } = require('uuid')
 const db = require('../../models')
 const app = express.Router()
 const auth = require('../../middleware/authorizationMiddleware')
+const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
-app.delete('/subscription/:id', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+app.delete('/subscription/:serviceId', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     // cek dulu apakah bisa ditemukan service id dari params
     const getCost = await db.services.findAll({
         raw: true,
@@ -19,7 +20,7 @@ app.delete('/subscription/:id', auth.authenticate('bearer', { session: true }), 
     } else {
 
         const userId = req.session.passport.user.id
-        const serviceId = req.params.id
+        const serviceId = req.params.serviceId
 
         // melakukan insert data into database
         const deleteSubscription = await db.subscriptions.destroy({
@@ -36,4 +37,5 @@ app.delete('/subscription/:id', auth.authenticate('bearer', { session: true }), 
     }
 })
 
+app.use(mysqlErrorHandler)
 module.exports = app

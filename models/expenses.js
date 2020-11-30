@@ -13,23 +13,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.users)
-      this.belongsTo(models.cards)
+      this.belongsTo(models.cards, { foreignKey: 'cardId' })
+      this.belongsTo(models.categories, { foreignKey: 'categoryId' })
     }
   };
   expenses.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: v4()
     },
     title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: true,
-        notNull: true,
-      }
-    },
-    category: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -54,6 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    createdAt: false,
+    updatedAt: false,
     modelName: 'expenses',
   });
   return expenses;
