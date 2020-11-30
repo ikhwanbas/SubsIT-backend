@@ -18,13 +18,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-<<<<<<< HEAD
-=======
       payment: {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
->>>>>>> 0212e3f26e4eeff7cd14f915edd65b0d692071d3
       userId: {
         type: Sequelize.UUID,
         allowNull: false,

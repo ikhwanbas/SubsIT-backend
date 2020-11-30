@@ -6,9 +6,9 @@ const auth = require('../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 
-app.post('/subscription/:id', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     const userId = req.session.passport.user.id
-    const serviceId = req.params.id
+    const serviceId = req.params.serviceId
     const cardId = req.query.cardId
 
     // ambil nilai dari cost

@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.services)
-      this.belongsTo(models.users)
-      this.belongsTo(models.cards)
+      this.belongsTo(models.services, { foreignKey: 'serviceId' })
+      this.belongsTo(models.users, { foreignKey: 'userId' })
+      this.belongsTo(models.cards, { foreignKey: 'cardId' })
     }
   };
   subscriptions.init({
@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     dueDate: {
       type: DataTypes.DATE,
-      allowNull: false
-    },
-    cardId: {
-      type: DataTypes.UUID,
       allowNull: false
     },
     payment: {

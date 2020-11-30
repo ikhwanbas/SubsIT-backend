@@ -32,7 +32,7 @@ app.post('/auth/register', async (req, res, next) => {
                 .catch(err => res.status(400).send(err))
 
             if (addUserResult) {
-                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, jwtConfig.options)
+                const token = jwt.sign({ id: body.id }, process.env.JWT_SECRET, jwtConfig.options)
                 addUserResult.dataValues.token = token
                 delete addUserResult.dataValues.password
                 res.send(addUserResult.dataValues)

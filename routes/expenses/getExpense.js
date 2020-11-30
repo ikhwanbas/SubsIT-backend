@@ -4,11 +4,12 @@ const app = express.Router()
 const auth = require('../../middleware/authorizationMiddleware')
 
 
-app.get('/subscription', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+app.get('/expense', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     // ambil user id dari passport 
     const userId = req.session.passport.user.id
+
     // mencari data subscription dari database
-    const subscription = await db.subscriptions.findAll({
+    const expense = await db.expenses.findAll({
         include: [{
             model: db.users,
             required: true,
@@ -23,11 +24,11 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     })
 
     // kondisi kalau tidak ditemukan subscription
-    if (subscription.length <= 0) {
-        res.status(404).send('subscription is not found')
+    if (expense.length <= 0) {
+        res.status(404).send('expense is not found')
     } else {
         // kalau ditemukan tampilkan hasilnya
-        res.send(subscription)
+        res.send(expense)
     }
 })
 
