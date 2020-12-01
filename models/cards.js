@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true
       }
     },
-    cardName: {
+    cardBank: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
