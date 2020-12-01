@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true
       },
       cardHolder: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
       cardType: {
