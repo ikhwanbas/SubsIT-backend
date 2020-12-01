@@ -7,7 +7,8 @@ module.exports = {
     "username": DB_USERNAME,
     "password": DB_PASSWORD,
     "database": DB_DATABASE,
-    "host": "localhost",
+    // "host": "localhost",
+    "host": DB_HOST,
     "dialect": "mysql",
     //biar ga kotor syntax mysql di terminal
     logging: false
@@ -16,7 +17,8 @@ module.exports = {
     "username": DB_USERNAME,
     "password": DB_PASSWORD,
     "database": DB_DATABASE,
-    "host": "localhost",
+    "host": DB_HOST,
+    //  "host": "localhost",
     "dialect": "mysql"
   }
 }
