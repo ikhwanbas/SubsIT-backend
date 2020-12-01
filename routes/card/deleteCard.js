@@ -8,13 +8,7 @@ const passport = require('../../middleware/authorizationMiddleware')
 
 
 app.delete('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
-    let body = req.body
     let query = req.query
-    // const check = await db.cards.findAll({
-    //     where: {
-    //         id: req.query.id
-    //     }
-    // })
     const check = await db.cards.findAll({
         where: {
             cardNumber: query.cardNumber

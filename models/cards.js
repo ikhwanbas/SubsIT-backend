@@ -47,14 +47,6 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true
       }
     },
-    cardName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: true,
-        notNull: true
-      }
-    },
     cardNumber: {
       type: DataTypes.INTEGER,
       allowNull: false,
