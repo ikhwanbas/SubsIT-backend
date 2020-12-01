@@ -6,11 +6,15 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: true
       },
+      cardHolder: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       cardType: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      cardName: {
+      cardBank: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -19,6 +23,10 @@ module.exports = {
         allowNull: false
       },
       cardValid: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      cvv: {
         type: Sequelize.STRING,
         allowNull: false
       },

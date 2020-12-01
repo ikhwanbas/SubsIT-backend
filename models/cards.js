@@ -23,7 +23,23 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: v4()
     },
+    cardHolder: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true
+      }
+    },
     cardType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true
+      }
+    },
+    cardBank: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -51,6 +67,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notNull: true
+      }
+    },
+    cvv: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
         notNull: true
       }
     },
