@@ -11,12 +11,13 @@ app.post('/auth/login', async (req, res, next) => {
     try {
         let user = await db.users.findAll({
             where: {
-                email: body.email
+                email: body.email,
+                status: 'active'
             }
         })
             .catch((err) => next(err))
         if (!user.length) {
-            return res.status(404).send('User not available, pls register')
+            return res.status(404).send('User not available or inactive , pls register')
         }
         else {
             user = user[0]

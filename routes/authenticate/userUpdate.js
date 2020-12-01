@@ -3,8 +3,9 @@ const app = express.Router()
 const db = require('../../models')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 const { salt } = require('../../helpers/bcryptHelper')
+const passport = require('../../middleware/authorizationMiddleware')
 
-app.patch('/auth/update', async (req, res, next) => {
+app.patch('/auth/update', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let body = req.body
     let query = req.query
     const user = await db.users.findAll({

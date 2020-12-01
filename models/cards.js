@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { v4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
   class cards extends Model {
     /**
@@ -19,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   cards.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: v4()
     },
     cardType: {
       type: DataTypes.STRING,

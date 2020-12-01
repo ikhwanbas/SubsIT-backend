@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { v4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
   class categories extends Model {
     /**
@@ -18,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
+      defaultValue: v4(),
       type: DataTypes.UUID
     },
     category: {

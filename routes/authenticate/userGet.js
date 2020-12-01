@@ -1,10 +1,10 @@
 const express = require('express')
 const app = express.Router()
 const db = require('../../models')
+const mysqlErrorHandler = require('../../middleware/errorMiddleware')
+const passport = require('../../middleware/authorizationMiddleware')
 
-
-
-app.get('/auth/user', async (req, res, next) => {
+app.get('/auth/user', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let query = req.query
     try {
         const user = await db.users.findAll({
@@ -24,4 +24,5 @@ app.get('/auth/user', async (req, res, next) => {
 
 })
 
+app.use(mysqlErrorHandler)
 module.exports = app
