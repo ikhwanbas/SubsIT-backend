@@ -59,7 +59,7 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
         const insertBody = {
             id: v4(),
             userId: userId,
-            repeat: 'monthly',
+            repeat: 'Monthly',
             serviceId: serviceId,
             cardId: req.query.cardId,
             startDate: new Date().toLocaleDateString(),
