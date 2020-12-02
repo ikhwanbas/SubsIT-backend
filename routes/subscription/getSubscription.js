@@ -6,25 +6,46 @@ const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 
 app.get('/subscription', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+    const dates = req.query.dates
     // ambil user id dari passport 
     const userId = req.session.passport.user.id
-    // mencari data subscription dari database
-    const subscription = await db.subscriptions.findAll({
-        include: [{
-            model: db.services,
-            required: true
-        }],
-        where: {
-            userId
-        }
-    })
 
-    // kondisi kalau tidak ditemukan subscription
-    if (subscription.length <= 0) {
-        res.status(404).send('subscription is not found')
+    if (req.query.dates) {
+        const subscriptionByDates = await db.subscriptions.findAll({
+            include: [{
+                model: db.services,
+                required: true
+            }],
+            where: {
+                userId,
+                dueDate: dates
+            }
+        })
+        // kondisi kalau tidak ditemukan subscription
+        if (subscriptionByDates.length <= 0) {
+            res.status(404).send('subscription is not found')
+        } else {
+            // kalau ditemukan tampilkan hasilnya
+            res.send(subscriptionByDates)
+        }
     } else {
-        // kalau ditemukan tampilkan hasilnya
-        res.send(subscription)
+        // mencari data subscription dari database
+        const subscription = await db.subscriptions.findAll({
+            include: [{
+                model: db.services,
+                required: true
+            }],
+            where: {
+                userId
+            }
+        })
+        // kondisi kalau tidak ditemukan subscription
+        if (subscription.length <= 0) {
+            res.status(404).send('subscription is not found')
+        } else {
+            // kalau ditemukan tampilkan hasilnya
+            res.send(subscription)
+        }
     }
 })
 

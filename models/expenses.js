@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     purchaseDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         notNull: true
