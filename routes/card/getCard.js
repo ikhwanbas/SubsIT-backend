@@ -9,7 +9,7 @@ const passport = require('../../middleware/authorizationMiddleware')
 app.get('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     //mencari card by query/semua key field
     const check = await db.cards.findAll({
-        where: req.query,
+        where: { userId: req.user.id },
         include: {
             model: db.users,
             attributes: ['fullName', 'email']
