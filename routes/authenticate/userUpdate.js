@@ -7,11 +7,9 @@ const passport = require('../../middleware/authorizationMiddleware')
 
 app.patch('/auth/update', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let body = req.body
-    let query = req.query
+    // let query = req.query
     const user = await db.users.findAll({
-        where: {
-            email: query.email
-        }
+        where: { id: req.user.id }
     })
         .catch((err) => next(err))
     if (!user.length) {
@@ -27,9 +25,7 @@ app.patch('/auth/update', passport.authenticate('bearer', { session: false }), a
             const result = await db.users.update(
                 body,
                 {
-                    where: {
-                        email: query.email
-                    }
+                    where: { id: req.user.id }
                 })
                 .catch(err => res.next(err))
             if (result == 1) {
@@ -41,14 +37,16 @@ app.patch('/auth/update', passport.authenticate('bearer', { session: false }), a
         const result = await db.users.update(
             body,
             {
-                where: {
-                    email: query.email
-                }
+                where: { id: req.user.id }
             })
             .catch(err => res.next(err))
 
+        const updatedUser = await db.users.findAll({
+            where: { id: req.user.id }
+        })
+            .catch((err) => next(err))
         if (result == 1) {
-            res.send("your data updated")
+            res.send(updatedUser)
         } else {
             res.send("update failed")
         }
