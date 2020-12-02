@@ -11,14 +11,6 @@ app.get('/expense', auth.authenticate('bearer', { session: true }), async (req, 
 
     // mencari data subscription dari database
     const expense = await db.expenses.findAll({
-        include: [{
-            model: db.users,
-            required: true,
-            include: [{
-                model: db.cards,
-                required: true
-            }]
-        }],
         where: {
             userId
         }

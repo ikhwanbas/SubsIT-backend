@@ -11,12 +11,8 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     // mencari data subscription dari database
     const subscription = await db.subscriptions.findAll({
         include: [{
-            model: db.users,
-            required: true,
-            include: [{
-                model: db.cards,
-                required: true
-            }]
+            model: db.services,
+            required: true
         }],
         where: {
             userId
