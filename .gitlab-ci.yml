@@ -1,0 +1,14 @@
+stages:
+- deploy
+
+pullToServer:
+  stage: deploy
+  image: ubuntu
+  before_script:
+    - which ssh || apt update && apt install ssh -y
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - chmod 400 $SSH_KEY
+  script:
+    - ssh -i $SSH_KEY $SSH_USER@$SSH_HOSTNAME "cd $CI_PROJECT_NAME&& git pull &&
+      npm i --no-save && npm run pm2:restart"
