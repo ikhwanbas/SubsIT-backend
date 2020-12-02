@@ -11,9 +11,10 @@ app.post('/expense', auth.authenticate('bearer', { session: true }), async (req,
 
     // ambil input expense dari user :
     const body = req.body
-    body.userId = userId
     const total = parseInt(req.body.total)
     const cardId = req.body.cardId
+    body.userId = userId
+    body.id = v4()
 
     // mengambil data saldo di kartu 
     const getSaldo = await db.cards.findAll({
@@ -28,9 +29,8 @@ app.post('/expense', auth.authenticate('bearer', { session: true }), async (req,
     if (cardSaldo < req.body.total) {
         return res.status(402).send('your saldo is not enough to pay this services')
     }
-    // melakukan update saldo
+    // menghitung nilai saldo terupdate
     const updatedSaldo = (cardSaldo - total)
-    console.log(updatedSaldo);
 
     // melakukan insert data into database
     const expense = await db.expenses.create(body)
@@ -45,9 +45,8 @@ app.post('/expense', auth.authenticate('bearer', { session: true }), async (req,
                     id: cardId
                 }
             })
+        res.send(body)
     }
-    res.send(body)
-
 })
 app.use(mysqlErrorHandler)
 

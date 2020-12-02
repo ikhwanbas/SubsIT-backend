@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.users)
+      this.belongsTo(models.users, { foreignKey: 'userId' })
       this.belongsTo(models.cards, { foreignKey: 'cardId' })
       this.belongsTo(models.categories, { foreignKey: 'categoryId' })
     }
@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
         notNull: true,
       }
     },
