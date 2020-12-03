@@ -6,9 +6,9 @@ const jwtConfig = require('../../config/jwtConfig')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 const { salt } = require('../../helpers/bcryptHelper')
 const { v4 } = require('uuid')
-const { Op } = require('sequelize')
 
 
+//masih ada bugs
 app.post('/auth/register', async (req, res, next) => {
     let body = req.body
     body.id = v4()
