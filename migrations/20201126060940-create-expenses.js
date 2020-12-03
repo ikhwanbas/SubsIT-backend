@@ -11,7 +11,7 @@ module.exports = {
         allowNull: false
       },
       purchaseDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false
       },
       total: {

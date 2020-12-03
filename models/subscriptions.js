@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     startDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
     dueDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
     payment: {
