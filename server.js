@@ -10,9 +10,6 @@ app.use(bodyParser.json())
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-
 const corsOptionsDelegate = function (req, callback) {
     let corsOptions;
     if (["http://localhost:3000"].indexOf(req.header('Origin')) !== -1) {
@@ -42,7 +39,7 @@ filePaths.forEach((filePath) => {
     app.use(route)
 })
 
-const port = process.env.PORT
+const port = process.env.HOSTNAME
 app.listen(port, () => {
-    console.log(`Backend app is running in http://${process.env.HOSTNAME}`);
+    console.log(`Backend app is running in ${port}`);
 })
