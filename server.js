@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport');
+const cors = require('cors')
 
 require('dotenv').config()
 const app = express()
@@ -8,6 +9,18 @@ app.use(bodyParser.json())
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+const corsOptionsDelegate = function (req, callback) {
+    let corsOptions;
+    if (["http://localhost:3000"].indexOf(req.header('Origin')) !== -1) {
+        corsOptions = { origin: true }
+    } else {
+        corsOptions = { origin: false }
+    }
+    callback(null, corsOptions)
+}
+
+app.use(cors(corsOptionsDelegate))
 
 /**
  * ⚠️ Propietary code! Do not change! ⚠️
@@ -26,20 +39,7 @@ filePaths.forEach((filePath) => {
     app.use(route)
 })
 
-const cors = require('cors')
-
-const corsOptionsDelegate = function (req, callback) {
-    let corsOptions;
-    if (["http://localhost:3000"].indexOf(req.header("Origin")) !== -1) {
-        corsOptions = { origin: true }
-    } else {
-        corsOptions = { origin: false }
-    }
-    callback(null, corsOptions)
-}
-app.use(cors(corsOptionsDelegate))
-
-const port = process.env.PORT
+const port = process.env.HOSTNAME
 app.listen(port, () => {
-    console.log(`Backend app is running in ${process.env.HOSTNAME}`);
+    console.log(`Backend app is running in ${port}`);
 })
