@@ -26,6 +26,19 @@ filePaths.forEach((filePath) => {
     app.use(route)
 })
 
+const cors = require('cors')
+
+const corsOptionsDelegate = function (req, callback) {
+    let corsOptions;
+    if (["http://localhost:3000"].indexOf(req.header("Origin")) !== -1) {
+        corsOptions = { origin: true }
+    } else {
+        corsOptions = { origin: false }
+    }
+    callback(null, corsOptions)
+}
+app.use(cors(corsOptionsDelegate))
+
 const port = process.env.PORT
 app.listen(port, () => {
     console.log(`Backend app is running in ${process.env.HOSTNAME}`);
