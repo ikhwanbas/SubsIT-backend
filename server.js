@@ -39,7 +39,7 @@ filePaths.forEach((filePath) => {
     app.use(route)
 })
 
-const port = process.env.HOSTNAME
+const port = process.env.PORT
 app.listen(port, () => {
-    console.log(`Backend app is running in ${port}`);
+    console.log(`Backend app is running in http://localhost:${port}`);
 })
