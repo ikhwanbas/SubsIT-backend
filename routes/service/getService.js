@@ -2,9 +2,8 @@ const express = require('express')
 const app = express.Router()
 const db = require('../../models')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
-const passport = require('../../middleware/authorizationMiddleware')
 
-app.get('/service', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
+app.get('/service', async (req, res, next) => {
     //mencari service berdasarkan query/semua key field
     const check = await db.services.findAll({
         where: req.query
