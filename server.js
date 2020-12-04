@@ -7,21 +7,21 @@ require('dotenv').config()
 const app = express()
 app.use(bodyParser.json())
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-const corsOptionsDelegate = function (req, callback) {
-    let corsOptions;
-    if (["http://localhost:3000"].indexOf(req.header('Origin')) !== -1) {
-        corsOptions = { origin: true }
-    } else {
-        corsOptions = { origin: false }
+//app.use(cors())
+const whiteList = ['http://localhost:3000', 'http://127.0.0.1:3000']
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whiteList.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not Allowed by CORS'))
+        }
     }
-    callback(null, corsOptions)
 }
 
-app.use(cors(corsOptionsDelegate))
-
+app.use(cors(corsOptions))
+app.use(passport.initialize());
+app.use(passport.session());
 /**
  * ⚠️ Propietary code! Do not change! ⚠️
  * What this does is reading all files inside routes folder recrusively
