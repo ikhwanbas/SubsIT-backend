@@ -6,22 +6,25 @@ const cors = require('cors')
 require('dotenv').config()
 const app = express()
 app.use(bodyParser.json())
+//buat yang pingin API nya bisa di akses oleh siapapun
+//app.use(cors())
+
+//buat yang pengen API nya cuman bisa di akses sama aplikasi dari domain tertentu
+const whiteList = ['http://localhost:3000', 'http://127.0.0.1:3000']
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whiteList.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not Allowed by CORS'))
+        }
+    }
+}
+app.use(cors(corsOptions))
+
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-const corsOptionsDelegate = function (req, callback) {
-    let corsOptions;
-    if (["http://localhost:3000"].indexOf(req.header('Origin')) !== -1) {
-        corsOptions = { origin: true }
-    } else {
-        corsOptions = { origin: false }
-    }
-    callback(null, corsOptions)
-}
-
-app.use(cors(corsOptionsDelegate))
-
 /**
  * ⚠️ Propietary code! Do not change! ⚠️
  * What this does is reading all files inside routes folder recrusively
