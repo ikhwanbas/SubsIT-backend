@@ -52,22 +52,6 @@ app.post('/auth/register', async (req, res, next) => {
             })
             .catch((err) => next(err))
         res.send('Account activation is succesfull, please log in')
-    } else if (!getStatus) {
-        const password = body.password
-        body.status = 'active'
-        const hashedPassword = await salt(password)
-            .catch((err) => next(err))
-        body.password = hashedPassword
-
-        const addUserResult = await db.users.create(body)
-            .catch(err => next(err))
-
-        if (addUserResult) {
-            const token = jwt.sign({ id: body.id }, process.env.JWT_SECRET, jwtConfig.options)
-            addUserResult.dataValues.token = token
-            delete addUserResult.dataValues.password
-            res.send(addUserResult.dataValues)
-        }
     }
 })
 
