@@ -6,8 +6,10 @@ const cors = require('cors')
 require('dotenv').config()
 const app = express()
 app.use(bodyParser.json())
-
+//buat yang pingin API nya bisa di akses oleh siapapun
 //app.use(cors())
+
+//buat yang pengen API nya cuman bisa di akses sama aplikasi dari domain tertentu
 const whiteList = ['http://localhost:3000', 'http://127.0.0.1:3000']
 const corsOptions = {
     origin: function (origin, callback) {
@@ -18,8 +20,9 @@ const corsOptions = {
         }
     }
 }
-
 app.use(cors(corsOptions))
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 /**
