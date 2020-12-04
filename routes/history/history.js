@@ -46,15 +46,11 @@ app.get('/history', auth.authenticate('bearer', { session: true }), async (req, 
             robj[sobj.key] = sobj.value
             return { total: parseInt(sobj.payment) }
         })
-        const sumByDate = {
-            total: c
-                .map(item => item.total)
-                .reduce((prev, curr) => prev + curr, 0)
-        }
+        const sumByDate = c
+            .map(item => item.total)
+            .reduce((prev, curr) => prev + curr, 0)
 
-        const subscriptions = { subscriptions: subscriptionByDates }
-        const expenses = { expenses: expenseByDate }
-        const resultByDate = Object.values([sumByDate, subscriptions, expenses])
+        const resultByDate = { total: sumByDate, subscriptions: subscriptionByDates, expenses: expenseByDate }
         res.status(200).send(resultByDate)
 
     } else {
@@ -90,16 +86,11 @@ app.get('/history', auth.authenticate('bearer', { session: true }), async (req, 
             robj[sobj.key] = sobj.value
             return { total: parseInt(sobj.payment) }
         })
-        const sum =
-        {
-            total: c
-                .map(item => item.total)
-                .reduce((prev, curr) => prev + curr, 0)
-        }
+        const sum = c
+            .map(item => item.total)
+            .reduce((prev, curr) => prev + curr, 0)
 
-        const subscriptionss = { subscriptions: subscription }
-        const expensess = { expenses: expense }
-        const result = Object.values([sum, subscriptionss, expensess])
+        const result = { total: sum, subscriptions: subscription, expenses: expense }
         res.status(200).send(result)
     }
 })
