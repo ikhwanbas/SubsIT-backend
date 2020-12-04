@@ -7,9 +7,10 @@ const passport = require('../../middleware/authorizationMiddleware')
 
 
 
-app.patch('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
+app.patch('/payment/topUp', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
     let body = req.body
     const check = await db.cards.findAll({
+        raw: true,
         where: {
             cardNumber: req.query.cardNumber
         }
@@ -19,18 +20,21 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
         return res.status(404).send('card not found')
     }
     else {
-        const result = await db.cards.update(
-            body,
+        const cardSaldo = parseInt(check[0].saldo)
+        const topUp = (cardSaldo + body.saldo)
+        const result = await db.cards.update({
+            // raw: true,
+            saldo: topUp
+        },
             {
-                where: {
-                    cardNumber: req.query.cardNumber
-                }
+                where: { cardNumber: req.query.cardNumber }
             })
-            .catch(err => next(err))
+
+            .catch((err) => next(err))
         if (result == 1) {
-            res.send("your card updated")
+            res.send("your top up suscescfull")
         } else {
-            res.send("update failed")
+            res.send("top up failed")
         }
 
     }
