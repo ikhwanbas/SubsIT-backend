@@ -4,6 +4,8 @@ const db = require('../../models')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../../config/jwtConfig')
 const { checkPassword } = require('../../helpers/bcryptHelper')
+const { QueryTypes } = require('sequelize')
+const { sequelize } = require('../../models')
 
 
 app.post('/auth/login', async (req, res, next) => {
@@ -30,6 +32,23 @@ app.post('/auth/login', async (req, res, next) => {
                 user.dataValues.token = token
                 delete user.dataValues.password
                 res.send(user.dataValues)
+
+                let subs = await db.subscriptions.findAll({
+                    raw: true,
+                    where: {
+                        userId: user.id
+                    }
+                })
+                //update service subscribed
+                let subsId = subs[0].serviceId
+                await sequelize.query(`UPDATE services SET subscribed = 'false'`, { type: QueryTypes.UPDATE })
+                    &&
+                    await db.services.update({ subscribed: 'true' },
+                        {
+                            where: {
+                                id: subsId
+                            }
+                        })
             }
         }
 

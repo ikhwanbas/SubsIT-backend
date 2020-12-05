@@ -80,6 +80,13 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                         id: cardId
                     }
                 })
+                && await db.services.update({ subscribed: 'true' },
+                    {
+                        where: {
+                            id: serviceId
+                        }
+                    })
+
         }
         res.send(subscription)
     }

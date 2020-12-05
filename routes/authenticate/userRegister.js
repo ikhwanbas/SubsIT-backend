@@ -6,7 +6,8 @@ const jwtConfig = require('../../config/jwtConfig')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 const { salt } = require('../../helpers/bcryptHelper')
 const { v4 } = require('uuid')
-
+const { QueryTypes } = require('sequelize')
+const { sequelize } = require('../../models')
 
 //masih ada bugs
 app.post('/auth/register', async (req, res, next) => {
@@ -35,6 +36,9 @@ app.post('/auth/register', async (req, res, next) => {
             addUserResult.dataValues.token = token
             delete addUserResult.dataValues.password
             res.send(addUserResult.dataValues)
+            //update service subscribed
+            await sequelize.query(`UPDATE services SET subscribed = 'false'`, { type: QueryTypes.UPDATE })
+
         }
     }
 
