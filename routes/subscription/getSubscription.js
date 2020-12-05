@@ -18,7 +18,7 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             }],
             where: {
                 userId,
-                dueDate: dates
+                startDate: dates
             }
         })
         // kondisi kalau tidak ditemukan subscription
