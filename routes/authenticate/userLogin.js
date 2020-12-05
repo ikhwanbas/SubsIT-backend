@@ -32,7 +32,7 @@ app.post('/auth/login', async (req, res, next) => {
                 user.dataValues.token = token
                 delete user.dataValues.password
                 res.send(user.dataValues)
-
+                //cek user subscriptions
                 let subs = await db.subscriptions.findAll({
                     raw: true,
                     where: {
