@@ -79,7 +79,7 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                         userId,
                         id: cardId
                     }
-                })
+                })//update service subscribed
                 && await db.services.update({ subscribed: 'true' },
                     {
                         where: {
