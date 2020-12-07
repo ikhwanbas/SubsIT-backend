@@ -23,6 +23,10 @@ app.post('/expense', auth.authenticate('bearer', { session: true }), async (req,
         where: { id: cardId }
     })
         .catch((err) => next(err))
+
+    // cek apakah ada card
+    if (!getSaldo || getSaldo.length <= 0) { return res.status(404).send('card is not found') }
+
     const cardSaldo = parseInt(getSaldo[0].saldo)
 
     // kondisi jika saldo di kartu kurang dari biaya layanan
@@ -32,6 +36,15 @@ app.post('/expense', auth.authenticate('bearer', { session: true }), async (req,
     // menghitung nilai saldo terupdate
     const updatedSaldo = (cardSaldo - total)
 
+    // cek apakah category Id ditemukan atau tidak
+    const checkCategory = await db.categories.findAll({
+        raw: true,
+        attributes: ['id'],
+        where: { id: body.categoryId }
+    })
+        .catch((err) => next(err))
+
+    if (!checkCategory || checkCategory.length <= 0) { return res.status(404).send('categoryId is not found, please input correct Category Id') }
     // melakukan insert data into database
     const expense = await db.expenses.create(body)
         .catch((err) => next(err))
