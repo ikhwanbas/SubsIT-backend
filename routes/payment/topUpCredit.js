@@ -23,7 +23,6 @@ app.patch('/payment/topUp', passport.authenticate('bearer', { session: false }),
         const cardSaldo = parseInt(check[0].saldo)
         const topUp = (cardSaldo + body.saldo)
         const result = await db.cards.update({
-            // raw: true,
             saldo: topUp
         },
             {
