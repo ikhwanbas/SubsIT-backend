@@ -1,5 +1,4 @@
 const express = require('express')
-const db = require('../../models')
 const app = express.Router()
 const auth = require('../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')

@@ -2,9 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const { v4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
-  class subscriptions extends Model {
+  class credits extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,47 +11,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.services, { foreignKey: 'serviceId' })
       this.belongsTo(models.users, { foreignKey: 'userId' })
-      this.belongsTo(models.cards, { foreignKey: 'cardId' })
     }
   };
-  subscriptions.init({
+  credits.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: v4(),
     },
-    repeat: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isAlpha: true,
         notNull: true,
-        equals: 'Monthly'
       }
     },
-    startDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: true
+      }
     },
     dueDate: {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    payment: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        notNull: true,
-      }
-    }
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
   }, {
     sequelize,
-    createdAt: false,
     updatedAt: false,
-    modelName: 'subscriptions'
+    modelName: 'credits',
   });
-  return subscriptions;
+  return credits;
 };
