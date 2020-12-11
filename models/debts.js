@@ -36,9 +36,21 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true
       }
     },
+    amount: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        notNull: true
+      }
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     dueDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     },
     createdAt: {
       type: DataTypes.DATEONLY,
