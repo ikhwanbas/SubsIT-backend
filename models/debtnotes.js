@@ -2,9 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const { v4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
-  class debts extends Model {
+  class debtNotes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -15,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.users, { foreignKey: 'userId' })
     }
   };
-  debts.init({
+  debtNotes.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -58,8 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    updatedAt: false,
-    modelName: 'debts',
+    modelName: 'debtNotes',
   });
-  return debts;
+  return debtNotes;
 };
