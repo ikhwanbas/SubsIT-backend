@@ -31,6 +31,7 @@
     "db:create": "sequelize db:create",
     "db:migrate:undo": "sequelize db:migrate:undo",
     "db:migrate": "sequelize db:migrate",
+    "db:migrate:undo": "sequelize db:migrate:undo",
     "db:seed": "sequelize db:seed:all",
     "db:drop": "sequelize db:drop",
     "pm2:start": "pm2 start server.js",
