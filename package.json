@@ -29,6 +29,7 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "db:create": "sequelize db:create",
+    "db:migrate:undo": "sequelize db:migrate:undo",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:drop": "sequelize db:drop",
