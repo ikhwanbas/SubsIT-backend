@@ -11,21 +11,7 @@ app.use(bodyParser.json())
 //buat yang pingin API nya bisa di akses oleh siapapun
 app.use(cors())
 
-//buat yang pengen API nya cuman bisa di akses sama aplikasi dari domain tertentu
-// const whiteList = ['http://localhost:3000', 'http://127.0.0.1:3000']
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         if (whiteList.indexOf(origin) !== -1) {
-//             callback(null, true)
-//         } else {
-//             callback(new Error('Not Allowed by CORS'))
-//         }
-//     }
-// }
-// app.use(cors(corsOptions))
-
-
-
+//cron job
 cron.schedule('0 0 * * *', () => {
     autoPaysubs()
 }, {

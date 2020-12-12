@@ -73,6 +73,8 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                 payment: serviceCost
             }
 
+
+
             // melakukan insert data into database
             const subscription = await db.subscriptions.create(insertBody)
                 .catch((err) => next(err))
