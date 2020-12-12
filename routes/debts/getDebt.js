@@ -14,9 +14,8 @@ app.get('/debts', auth.authenticate('bearer', { session: true }), async (req, re
         }
     })
         .catch((err) => next(err))
-    //validasi card tersedia/tidak
     if (!check.length) {
-        return res.status(204).send('expense not found')
+        return res.status(204).send('debts not found')
     }
     else {
         res.send(check)

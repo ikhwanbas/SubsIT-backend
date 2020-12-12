@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport');
 const cors = require('cors')
+const cron = require('node-cron')
+const autoPaysubs = require('./routes/subscription/autoPaysubs')
 
 require('dotenv').config()
 const app = express()
@@ -21,6 +23,17 @@ app.use(cors())
 //     }
 // }
 // app.use(cors(corsOptions))
+
+
+
+cron.schedule('0 0 * * *', () => {
+    autoPaysubs()
+}, {
+    scheduled: true,
+    timezone: 'Asia/Jakarta'
+}
+);
+
 
 
 app.use(passport.initialize());
