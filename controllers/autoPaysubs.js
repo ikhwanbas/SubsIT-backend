@@ -1,4 +1,4 @@
-const CronJobSubs = require("../../controllers/cronJobSubs");
+const CronJobSubs = require("./cronJobSubs");
 
 async function autoPaysubs() {
     const autoPay = new CronJobSubs()

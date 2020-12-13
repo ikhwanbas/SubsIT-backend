@@ -15,6 +15,9 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             include: [{
                 model: db.services,
                 required: true
+            }, {
+                model: db.cards,
+                required: true
             }],
             where: {
                 userId,
@@ -34,10 +37,17 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             include: [{
                 model: db.services,
                 required: true
+            }, {
+                model: db.cards,
+                required: true
             }],
             where: {
                 userId
             }
+            // , include: {
+            //     model: db.cards,
+            //     attributes: ['saldo']
+            // }
         })
         // kondisi kalau tidak ditemukan subscription
         if (subscription.length <= 0) {
