@@ -12,7 +12,7 @@ app.use(cors())
 
 const cron = require('node-cron')
 const autoPaysubs = require('./routes/subscription/autoPaysubs')
-cron.schedule('* * * * *', () => {
+cron.schedule('0 0 * * *', () => {
     autoPaysubs()
     //  console.log('test');
 }, {
