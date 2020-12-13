@@ -73,8 +73,6 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                 payment: serviceCost
             }
 
-
-
             // melakukan insert data into database
             const subscription = await db.subscriptions.create(insertBody)
                 .catch((err) => next(err))
@@ -87,21 +85,13 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                             userId,
                             id: cardId
                         }
-                    })//update service subscribed
-                    && await db.services.update({ subscribed: 'true' },
-                        {
-                            where: {
-                                id: serviceId
-                            }
-                        })
-
+                    })
             }
             res.send(subscription)
-
         }
-
     }
 })
+
 app.use(mysqlErrorHandler)
 
 module.exports = app

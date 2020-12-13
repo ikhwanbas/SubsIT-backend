@@ -40,10 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     cost: {
       type: DataTypes.DECIMAL,
       allowNull: false
-    },
-    subscribed: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     sequelize,

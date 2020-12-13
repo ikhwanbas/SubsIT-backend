@@ -4,9 +4,6 @@ const db = require('../../models')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../../config/jwtConfig')
 const { checkPassword } = require('../../helpers/bcryptHelper')
-const { QueryTypes } = require('sequelize')
-const { sequelize } = require('../../models')
-
 
 app.post('/auth/login', async (req, res, next) => {
     let body = req.body
@@ -39,23 +36,11 @@ app.post('/auth/login', async (req, res, next) => {
                         userId: user.id
                     }
                 })
-                //update service subscribed
-                let subsId = subs[0].serviceId
-                await sequelize.query(`UPDATE services SET subscribed = 'false'`, { type: QueryTypes.UPDATE })
-                    &&
-                    await db.services.update({ subscribed: 'true' },
-                        {
-                            where: {
-                                id: subsId
-                            }
-                        })
             }
         }
-
     } catch (err) {
         next(err)
     }
-
 })
 
 module.exports = app

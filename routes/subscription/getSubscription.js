@@ -10,7 +10,46 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     // ambil user id dari passport 
     const userId = req.session.passport.user.id
 
-    if (req.query.dates) {
+    // ambil serviceId dari query
+    const serviceId = req.query.serviceId
+
+    if (req.query.serviceId) {
+        // cari data subscription berdasar user ID ini dan service Id.
+        const subscription = await db.subscriptions.findAll({
+
+            where: {
+                userId,
+                serviceId
+            }
+        })
+
+        const service = await db.services.findAll({
+            where: {
+                id: serviceId
+            }
+        })
+
+        subscriptions = subscription[0]
+        services = service[0]
+
+        // memberikan response kalau tidak ada subscriptions maka respon status unsubscribed 
+        if (!subscription || subscription.length <= 0) {
+            // ambil data services
+            if (!services || services.length <= 0) {
+                return res.status(404).send('service Id is not found in our database')
+            } else {
+                services.dataValues.status = 'unsubscribed'
+                return res.status(200).send(services)
+            }
+
+        } else {
+            services.dataValues.status = 'subscribed'
+            return res.status(200).send(services)
+        }
+
+
+    }
+    else if (req.query.dates) {
         const subscriptionByDates = await db.subscriptions.findAll({
             include: [{
                 model: db.services,
