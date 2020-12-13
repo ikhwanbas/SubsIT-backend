@@ -5,7 +5,7 @@ const auth = require('../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 
-app.get('/debts', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+app.get('/debts/delete', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     let query = req.query
     const check = await db.debts.findAll({
         where: {

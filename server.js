@@ -2,8 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport');
 const cors = require('cors')
-const cron = require('node-cron')
-const autoPaysubs = require('./routes/subscription/autoPaysubs')
+
 
 require('dotenv').config()
 const app = express()
@@ -11,15 +10,15 @@ app.use(bodyParser.json())
 //buat yang pingin API nya bisa di akses oleh siapapun
 app.use(cors())
 
-//cron job
-cron.schedule('0 0 * * *', () => {
+const cron = require('node-cron')
+const autoPaysubs = require('./routes/subscription/autoPaysubs')
+cron.schedule('* * * * *', () => {
     autoPaysubs()
+    //  console.log('test');
 }, {
     scheduled: true,
     timezone: 'Asia/Jakarta'
-}
-);
-
+});
 
 
 app.use(passport.initialize());

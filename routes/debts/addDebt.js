@@ -6,7 +6,7 @@ const auth = require('../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../middleware/errorMiddleware')
 
 
-app.post('/debts', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
+app.post('/debts/add', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     let body = req.body
     body.id = v4()
     body.userId = req.user.id

@@ -1,8 +1,5 @@
 const db = require('../models')
 
-
-
-
 class CronJobSubs {
     constructor(data) {
         this.data = data
