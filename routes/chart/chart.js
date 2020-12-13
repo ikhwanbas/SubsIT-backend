@@ -51,7 +51,7 @@ app.get('/chart/:type', auth.authenticate('bearer', { session: true }), async (r
             return acc;
         }, {}));
 
-        res.status(200).send(resultWeekly)
+        res.status(200).send(resultWeekly.reverse())
 
     } else if (req.params.type == 'monthly') {
         // ambil data expense bulanan
@@ -93,7 +93,7 @@ app.get('/chart/:type', auth.authenticate('bearer', { session: true }), async (r
             return acc;
         }, {}));
 
-        res.status(200).send(result)
+        res.status(200).send(result.reverse())
 
     } else {
         res.status(400).send('bad request')
