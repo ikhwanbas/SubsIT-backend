@@ -28,7 +28,13 @@ app.patch('/card', passport.authenticate('bearer', { session: false }), async (r
             })
             .catch(err => next(err))
         if (result == 1) {
-            res.send("your card updated")
+            const check1 = await db.cards.findAll({
+                where: {
+                    cardNumber: req.query.cardNumber
+                }
+            })
+                .catch((err) => next(err))
+            res.send(check1)
         } else {
             res.send("update failed")
         }

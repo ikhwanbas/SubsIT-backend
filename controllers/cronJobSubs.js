@@ -18,12 +18,12 @@ class CronJobSubs {
                 raw: true,
                 where: { userId: subscription.userId }
             })
-            // const pay = await db.cards.update(
-            //     { saldo: card[0].saldo - subscription.payment },
-            //     { where: { id: subscription.cardId } }
-            // )
-            // console.log(pay);
-            // console.log(`subscription with id: ${subscription.id} have been paid`)
+            const pay = await db.cards.update(
+                { saldo: card[0].saldo - subscription.payment },
+                { where: { id: subscription.cardId } }
+            )
+            console.log(pay);
+            console.log(`subscription with id: ${subscription.id} have been paid`)
         });
     }
 
