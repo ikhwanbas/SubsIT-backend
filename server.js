@@ -13,7 +13,6 @@ app.use(cors())
 
 //get file location
 app.use('/files', express.static('uploads'))
-app.use('/files', express.static('assets'))
 
 
 //schedule for cron job
