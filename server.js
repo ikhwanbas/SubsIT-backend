@@ -11,7 +11,12 @@ app.use(bodyParser.json())
 //buat yang pingin API nya bisa di akses oleh siapapun
 app.use(cors())
 
+//get file location
+app.use('/files', express.static('uploads'))
+app.use('/files', express.static('assets'))
 
+
+//schedule for cron job
 cron.schedule('0 0 * * *', () => {
     autoPaysubs()
     //  console.log('test');
