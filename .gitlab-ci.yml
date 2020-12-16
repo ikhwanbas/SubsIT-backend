@@ -4,7 +4,7 @@ stages:
 serverPull:
   only:
     refs:
-      -master
+      - master
   stage: deploy
   image: ubuntu
   before_script:
