@@ -11,38 +11,37 @@ const { v4 } = require('uuid')
 app.post('/auth/register', async (req, res, next) => {
     let body = req.body
     body.id = v4()
-    const getStatus = await db.users.findAll({
-        where: {
-            email: body.email
+    body.photo = `${process.env.HOSTNAME}/files/defaultFotoProfile.jpg`
+    try {
+        const getStatus = await db.users.findAll({
+            raw: true,
+            where: {
+                email: body.email
 
-        }
-    })
-        .catch((err) => next(err))
-    if (!getStatus.length) {
-
-        const password = body.password
-        body.status = 'active'
-        const hashedPassword = await salt(password)
+            }
+        })
             .catch((err) => next(err))
-        body.password = hashedPassword
+        if (!getStatus.length) {
 
-        const addUserResult = await db.users.create(body)
-            .catch(err => next(err))
+            const password = body.password
+            body.status = 'active'
+            const hashedPassword = await salt(password)
+                .catch((err) => next(err))
+            body.password = hashedPassword
 
-        if (addUserResult) {
-            const token = jwt.sign({ id: body.id }, process.env.JWT_SECRET, jwtConfig.options)
-            addUserResult.dataValues.token = token
-            delete addUserResult.dataValues.password
-            res.send(addUserResult.dataValues)
-        }
-    }
+            const addUserResult = await db.users.create(body)
+                .catch(err => next(err))
+            const result = addUserResult.get({ plain: true })
 
-    let getStatuss = getStatus[0]
-    if (getStatuss.dataValues.status == 'active') {
-        return res.status(409).send('Email already used')
-    }
-
-    else if (getStatuss.dataValues.status == 'inactive') {
+            if (result) {
+                const token = jwt.sign({ id: body.id }, process.env.JWT_SECRET, jwtConfig.options)
+                result.token = token
+                delete result.password
+                res.send(result)
+            }
+        } else if (getStatus[0].status == 'active') {
+            return res.status(409).send('Email already used')
+        } else (getStatus[0].status == 'inactive')
         await db.users.update({
             status: 'active'
         },
@@ -51,7 +50,11 @@ app.post('/auth/register', async (req, res, next) => {
             })
             .catch((err) => next(err))
         res.send('Account activation is succesfull, please log in')
+    } catch (err) {
+        console.log('minor err when register but its okay!');
     }
+
+
 })
 
 app.use(mysqlErrorHandler)
