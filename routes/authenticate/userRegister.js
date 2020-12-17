@@ -11,6 +11,7 @@ const { v4 } = require('uuid')
 app.post('/auth/register', async (req, res, next) => {
     let body = req.body
     body.id = v4()
+    body.photo = `${process.env.HOSTNAME}/files/defaultFotoProfile.jpg`
     const getStatus = await db.users.findAll({
         where: {
             email: body.email
