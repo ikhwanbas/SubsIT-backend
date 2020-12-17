@@ -20,19 +20,31 @@ app.delete('/subscription/:serviceId', auth.authenticate('bearer', { session: tr
     if (getCost.length <= 0) {
         res.status(404).send('services not found')
     } else {
-
-        // melakukan insert data into database
-        const deleteSubscription = await db.subscriptions.destroy({
+        const getSubscription = await db.subscriptions.findAll({
+            raw: true,
             where: {
                 userId,
-                serviceId
+                serviceId,
+                status: 'subscribed'
             }
         })
-            .catch(err => res.status(400).send(err))
-        if (deleteSubscription) {
-            res.send('you have succesfully unsubscribe this service')
+
+        if (!getSubscription || getSubscription.length <= 0) {
+            return res.status(404).send('you do not subscribe this services')
+        } else {
+            // melakukan update status data into database
+            const deleteSubscription = await db.subscriptions.update(
+                { status: 'unsubscribed' },
+                {
+                    where: {
+                        userId,
+                        serviceId,
+                        status: 'subscribed'
+                    }
+                })
+                .catch(err => res.status(400).send(err))
+            return res.status(200).send('you have succesfully unsubscribe this service')
         }
-        res.status(404).send('there is no subscription with this service')
     }
 })
 

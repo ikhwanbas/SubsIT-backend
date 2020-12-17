@@ -46,7 +46,9 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                 raw: true,
                 where: {
                     serviceId,
-                    userId
+                    userId,
+                    status: 'subscribed'
+
                 }
             })
                 .catch((err) => next(err))
@@ -54,10 +56,12 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
             if (checkUserSubscribe.length > 0) {
                 return res.status(409).send('you already subscribe this services')
             }
+
             // kondisi jika saldo di kartu kurang dari biaya layanan
             if (cardSaldo < serviceCost) {
                 return res.status(402).send('your saldo is not enough to pay this services')
             }
+
             // melakukan update saldo
             const updatedSaldo = (cardSaldo - serviceCost)
 
@@ -70,7 +74,8 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                 cardId: req.query.cardId,
                 startDate: new Date().toLocaleDateString(),
                 dueDate: new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString(),
-                payment: serviceCost
+                payment: serviceCost,
+                status: 'subscribed'
             }
 
             // melakukan insert data into database

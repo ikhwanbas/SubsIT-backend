@@ -16,10 +16,10 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
     if (req.query.serviceId) {
         // cari data subscription berdasar user ID ini dan service Id.
         const subscription = await db.subscriptions.findAll({
-
             where: {
                 userId,
-                serviceId
+                serviceId,
+                status: 'subscribed'
             }
         })
 
@@ -28,7 +28,6 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
                 id: serviceId
             }
         })
-
         subscriptions = subscription[0]
         services = service[0]
 
@@ -46,9 +45,8 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             services.dataValues.status = 'subscribed'
             return res.status(200).send(services)
         }
-
-
     }
+
     else if (req.query.dates) {
         const subscriptionByDates = await db.subscriptions.findAll({
             include: [{
@@ -61,8 +59,10 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             where: {
                 userId,
                 startDate: dates
+
             }
         })
+
         // kondisi kalau tidak ditemukan subscription
         if (subscriptionByDates.length <= 0) {
             res.status(404).send('subscription is not found')
@@ -70,6 +70,7 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
             // kalau ditemukan tampilkan hasilnya
             res.send(subscriptionByDates)
         }
+
     } else {
         // mencari data subscription dari database
         const subscription = await db.subscriptions.findAll({
@@ -81,7 +82,8 @@ app.get('/subscription', auth.authenticate('bearer', { session: true }), async (
                 required: true
             }],
             where: {
-                userId
+                userId,
+                status: 'subscribed'
             }
             // , include: {
             //     model: db.cards,

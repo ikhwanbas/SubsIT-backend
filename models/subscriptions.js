@@ -48,6 +48,14 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true,
       }
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        notNull: true
+      }
+    }
   }, {
     sequelize,
     createdAt: false,
