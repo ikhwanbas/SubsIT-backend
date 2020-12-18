@@ -1,4 +1,5 @@
 const db = require('../models')
+const moment = require('moment')
 
 class CronJobSubs {
     constructor(data) {
@@ -6,30 +7,56 @@ class CronJobSubs {
     }
     async autoPayment() {
         // menentukan tanggal hari ini
-        const localDate = new Date().toLocaleString().split('/')[1]
-        const todayDate = new Date(new Date(new Date().setUTCDate(localDate)).setUTCHours(0, 0, 0, 0))
-
+        const today = moment().format("YYYY-MM-DD");
+        const then = moment(moment().add(30, 'days')).format("YYYY-MM-DD");
         //mencari subscription yang jatuh tempo pada hari ini
         const result = await db.subscriptions.findAll({
             raw: true,
             where: {
-                dueDate: todayDate,
+                status: 'subscribed',
+                dueDate: today,
             }
-        }).catch((err) => next(err))
-        result.forEach(async (subs) => {
-            //bugs 1 card = 2/ lebih subs , saldo berkurang hanya untuk satu subs
+        })
+
+        if (result.length) {
             const card = await db.cards.findAll({
                 raw: true,
-                where: { id: subs.cardId }
+                attributes: ['saldo'],
+                where: { id: result[0].cardId }
             })
-            await db.cards.update(
-                { saldo: card[0].saldo - subs.payment },
-                { where: { id: subs.cardId } }
-            )
-            console.log(`subscription with id: ${subs.id} have been paid`)
-        });
+
+            const saldo = card[0].saldo
+            const payment = result[0].payment
+            //--------------------------
+            if (saldo < payment) {
+                await db.subscriptions.update(
+                    {
+                        status: 'unsubscribed',
+                    },
+                    { where: { id: result[0].id } }
+                )
+                return console.log(`your subscription with id: ${result[0].id} have been unsubscribed because your saldo is not enough`)
+            }
+            else {
+                await db.cards.update(
+                    { saldo: saldo - payment },
+                    { where: { id: result[0].cardId } }
+                )
+                await db.subscriptions.update(
+                    {
+                        startDate: today,
+                        dueDate: then
+                    },
+                    { where: { id: result[0].id } }
+                )
+                return console.log(`subscription with id: ${result[0].id} have been paid`)
+
+            }
+        } else {
+            return console.log('no subscription with due date is today');
+        }
+
     }
 
 }
-
 module.exports = CronJobSubs

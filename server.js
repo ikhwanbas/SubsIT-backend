@@ -15,15 +15,14 @@ app.use(cors())
 app.use('/files', express.static('uploads'))
 
 
-//schedule for cron job
-cron.schedule('0 0 * * *', () => {
+// schedule for cron job
+cron.schedule('10 * * * * *', () => {
     autoPaysubs()
-    //  console.log('test');
+    // console.log('test');
 }, {
     scheduled: true,
     timezone: 'Asia/Jakarta'
 });
-
 
 app.use(passport.initialize());
 app.use(passport.session());

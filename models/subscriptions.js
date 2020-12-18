@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
         isAlpha: true,
         notNull: true
       }
-    }
+    },
   }, {
     sequelize,
     createdAt: false,

@@ -4,7 +4,7 @@ const db = require('../../../models')
 const app = express.Router()
 const auth = require('../../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../../middleware/errorMiddleware')
-
+const moment = require('moment')
 
 app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
     const userId = req.session.passport.user.id
@@ -64,7 +64,9 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
 
             // melakukan update saldo
             const updatedSaldo = (cardSaldo - serviceCost)
-
+            //declare date dengan format UTC
+            const today = moment().format("YYYY-MM-DD");
+            const then = moment(moment().add(30, 'days')).format("YYYY-MM-DD");
             // ambil user id dari passport 
             const insertBody = {
                 id: v4(),
@@ -72,8 +74,8 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
                 repeat: 'Monthly',
                 serviceId: serviceId,
                 cardId: req.query.cardId,
-                startDate: new Date().toLocaleDateString(),
-                dueDate: new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString(),
+                startDate: today,
+                dueDate: then,
                 payment: serviceCost,
                 status: 'subscribed'
             }
@@ -81,7 +83,6 @@ app.post('/subscription/:serviceId', auth.authenticate('bearer', { session: true
             // melakukan insert data into database
             const subscription = await db.subscriptions.create(insertBody)
                 .catch((err) => next(err))
-
             if (subscription) {
                 // mengupdate saldo di table card
                 await db.cards.update({ saldo: updatedSaldo },
