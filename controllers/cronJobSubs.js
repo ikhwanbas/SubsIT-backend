@@ -28,16 +28,7 @@ class CronJobSubs {
             const saldo = card[0].saldo
             const payment = result[0].payment
             //--------------------------
-            if (saldo < payment) {
-                await db.subscriptions.update(
-                    {
-                        status: 'unsubscribed',
-                    },
-                    { where: { id: result[0].id } }
-                )
-                return console.log(`your subscription with id: ${result[0].id} have been unsubscribed because your saldo is not enough`)
-            }
-            else {
+            if (saldo >= payment) {
                 await db.cards.update(
                     { saldo: saldo - payment },
                     { where: { id: result[0].cardId } }
@@ -50,8 +41,16 @@ class CronJobSubs {
                     { where: { id: result[0].id } }
                 )
                 return console.log(`subscription with id: ${result[0].id} have been paid`)
-
             }
+
+            await db.subscriptions.update(
+                {
+                    status: 'unsubscribed',
+                },
+                { where: { id: result[0].id } }
+            )
+            return console.log(`your subscription with id: ${result[0].id} have been unsubscribed because your saldo is not enough`)
+
         } else {
             return console.log('no subscription with due date is today');
         }
