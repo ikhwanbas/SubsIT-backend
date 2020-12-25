@@ -1,38 +1,10 @@
 const express = require('express')
 const app = express.Router()
-const db = require('../../../models')
 const mysqlErrorHandler = require('../../../middleware/errorMiddleware')
-const { v4 } = require('uuid')
 const passport = require('../../../middleware/authorizationMiddleware')
+const CardController = require('../../../controllers/cardsController')
 
-
-
-app.delete('/card', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
-    let query = req.query
-    const check = await db.cards.findAll({
-        where: {
-            cardNumber: query.cardNumber
-        }
-    })
-        .catch((err) => next(err))
-    if (!check.length) {
-        return res.status(404).send('card not found')
-    }
-    else {
-        const result = await db.cards.destroy({
-            where: {
-                cardNumber: query.cardNumber
-            }
-        })
-            .catch((err) => next(err))
-        if (result == 1) {
-            res.send("delete success")
-        } else {
-            res.send("delete failed")
-        }
-
-    }
-})
+app.delete('/card', passport.authenticate('bearer', { session: false }), CardController.deleteCard)
 
 app.use(mysqlErrorHandler)
 module.exports = app

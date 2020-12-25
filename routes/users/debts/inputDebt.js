@@ -1,19 +1,11 @@
 const express = require('express')
-const { v4 } = require('uuid')
-const db = require('../../../models')
+const DebtsController = require('../../../controllers/debtsController')
 const app = express.Router()
-const auth = require('../../../middleware/authorizationMiddleware')
+const passport = require('../../../middleware/authorizationMiddleware')
 const mysqlErrorHandler = require('../../../middleware/errorMiddleware')
 
 
-app.post('/debts/add', auth.authenticate('bearer', { session: true }), async (req, res, next) => {
-    let body = req.body
-    body.id = v4()
-    body.userId = req.user.id
-    const result = await db.debts.create(body)
-        .catch((err) => next(err))
-    res.send(result)
-})
+app.post('/debts/add', passport.authenticate('bearer', { session: true }), DebtsController.addDebts)
 app.use(mysqlErrorHandler)
 
 module.exports = app

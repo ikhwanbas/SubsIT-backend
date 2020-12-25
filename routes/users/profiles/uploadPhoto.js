@@ -42,7 +42,6 @@ app.post('/files', upload.single('file'), passport.authenticate('bearer', { sess
     })
         .catch((err) => next(err))
     res.send(user)
-    // res.send({ fileName })
 })
 
 module.exports = app
